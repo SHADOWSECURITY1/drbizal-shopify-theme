@@ -2058,13 +2058,23 @@ function DrBizalWebsite() {
     }
   }, "fully credited"), " toward any mentoring program you choose."), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      return setMentoringModal({
-        tier: 'DISCOVERY SESSION',
-        price: '$349',
-        duration: '60 Minutes',
-        features: ['Personal assessment with Dr. Bizal', 'Review of health history & goals', 'Customized recommendations', 'Credit toward any mentoring program'],
-        cta: 'Book Session'
-      });
+      var item = window.shopifyProducts && window.shopifyProducts['discovery'];
+      if (item && item.variantId) {
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: item.variantId,
+            quantity: 1
+          })
+        }).then(function () {
+          window.location.href = '/checkout';
+        });
+      } else {
+        window.location.href = window.discoverySessionUrl || '/contact';
+      }
     },
     className: "btn-primary",
     style: {

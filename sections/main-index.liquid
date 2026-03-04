@@ -27,7 +27,8 @@
     3: { variantId: {{ special_edition.variants.first.id | default: 0 }}, title: '{{ special_edition.title | escape }}' },
     6: { variantId: {{ workbook.variants.first.id        | default: 0 }}, title: '{{ workbook.title | escape }}' },
     7: { variantId: {{ audio_program.variants.first.id   | default: 0 }}, title: '{{ audio_program.title | escape }}' },
-    8: { variantId: {{ bundle.variants.first.id          | default: 0 }}, title: '{{ bundle.title | escape }}' }
+    8: { variantId: {{ bundle.variants.first.id          | default: 0 }}, title: '{{ bundle.title | escape }}' },
+    'discovery': { variantId: {{ discovery.variants.first.id | default: 0 }}, title: '{{ discovery.title | escape }}' }
   };
 
   // Discovery session Shopify product URL
