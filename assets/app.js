@@ -350,25 +350,46 @@ function DrBizalWebsite() {
           id: shopifyItem.variantId,
           quantity: 1
         })
+      }).then(function (r) {
+        return r.json();
+      }).then(function (lineItem) {
+        var shopifyImage = lineItem.featured_image ? lineItem.featured_image.url : null;
+        setCart(function (prev) {
+          var existing = prev.find(function (item) {
+            return item.id === product.id;
+          });
+          if (existing) {
+            return prev.map(function (item) {
+              return item.id === product.id ? _objectSpread(_objectSpread({}, item), {}, {
+                quantity: item.quantity + 1
+              }) : item;
+            });
+          }
+          return [].concat(_toConsumableArray(prev), [_objectSpread(_objectSpread({}, product), {}, {
+            quantity: 1,
+            shopifyImage: shopifyImage
+          })]);
+        });
       }).catch(function (err) {
         return console.error('Cart add failed:', err);
       });
-    }
-    setCart(function (prev) {
-      var existing = prev.find(function (item) {
-        return item.id === product.id;
-      });
-      if (existing) {
-        return prev.map(function (item) {
-          return item.id === product.id ? _objectSpread(_objectSpread({}, item), {}, {
-            quantity: item.quantity + 1
-          }) : item;
+    } else {
+      setCart(function (prev) {
+        var existing = prev.find(function (item) {
+          return item.id === product.id;
         });
-      }
-      return [].concat(_toConsumableArray(prev), [_objectSpread(_objectSpread({}, product), {}, {
-        quantity: 1
-      })]);
-    });
+        if (existing) {
+          return prev.map(function (item) {
+            return item.id === product.id ? _objectSpread(_objectSpread({}, item), {}, {
+              quantity: item.quantity + 1
+            }) : item;
+          });
+        }
+        return [].concat(_toConsumableArray(prev), [_objectSpread(_objectSpread({}, product), {}, {
+          quantity: 1
+        })]);
+      });
+    }
     setAddedToCart(product.id);
     setTimeout(function () {
       return setAddedToCart(null);
@@ -594,9 +615,18 @@ function DrBizalWebsite() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        flexShrink: 0
+        flexShrink: 0,
+        overflow: 'hidden'
       }
-    }, /*#__PURE__*/React.createElement("span", {
+    }, item.shopifyImage ? /*#__PURE__*/React.createElement("img", {
+      src: item.shopifyImage,
+      alt: item.title,
+      style: {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover'
+      }
+    }) : /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: '24px'
       }
