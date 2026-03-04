@@ -735,7 +735,7 @@ function DrBizalWebsite() {
       marginBottom: '10px'
     },
     onClick: function onClick() {
-      return window.location.href = '/checkout';
+      return window.location.href = '/cart';
     }
   }, "Checkout \u2192"), /*#__PURE__*/React.createElement("p", {
     style: {
@@ -2100,7 +2100,7 @@ function DrBizalWebsite() {
             quantity: 1
           })
         }).then(function () {
-          window.location.href = '/checkout';
+          window.location.href = '/cart';
         });
       } else {
         window.location.href = window.discoverySessionUrl || '/contact';
